@@ -289,14 +289,59 @@ class RequiredNameMixin(models.Model):
         abstract = True
 
 
+class EmailMixin(models.Model):
+    """
+    Добавляет не обязательное поле "Email"
+    """
+    email = models.EmailField(verbose_name='Email', max_length=255, blank=True,
+                              null=True, default=None)
+
+    class Meta:
+        abstract = True
+
+
+class RequiredEmailMixin(models.Model):
+    """
+    Добавляет не обязательное поле "Email"
+    """
+    email = models.EmailField(verbose_name='Email', max_length=255)
+
+    class Meta:
+        abstract = True
+
+
+class PhoneMixin(models.Model):
+    """
+    Добавляет не обязательное поле "Телефон"
+    TODO: добавить нормализацию поля
+    """
+    phone = models.CharField(verbose_name='Телефон', max_length=255, blank=True,
+                             null=True, default=None)
+
+    class Meta:
+        abstract = True
+
+
+class RequiredPhoneMixin(models.Model):
+    """
+    Добавляет не обязательное поле "Телефон"
+    TODO: добавить нормализацию поля
+    """
+    phone = models.CharField(verbose_name='Телефон', max_length=255)
+
+    class Meta:
+        abstract = True
+
+
 try:
-    from ckeditor.fields import RichTextField
+    from ckeditor_uploader.fields import RichTextUploadingField
 
     class RichTextMixin(models.Model):
         """
         Необязательное текстовое поле с CKEditor
         """
-        text = RichTextField(verbose_name='Текст', blank=True, null=True, default=None)
+        text = RichTextUploadingField(verbose_name='Текст', blank=True,
+                                      null=True, default=None)
 
         class Meta:
             abstract = True
@@ -305,7 +350,7 @@ try:
         """
         Обязательное текстовое поле с CKEditor
         """
-        text = RichTextField(verbose_name='Текст')
+        text = RichTextUploadingField(verbose_name='Текст')
 
         class Meta:
             abstract = True
