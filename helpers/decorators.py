@@ -11,11 +11,11 @@ def ajax_view(view_func):
     """
     def wrapper(request, *args, **kwargs):
         if not request.is_ajax() and not settings.DEBUG:
-            raise HttpResponseBadRequest
+            return HttpResponseBadRequest()
 
         result = view_func(request, *args, **kwargs)
         if not isinstance(result, dict):
-            raise TypeError("Decorated function mast return dict instance")
+            raise TypeError('Decorated function must return dict instance')
         return JsonResponse(result)
     return wrapper
 
@@ -39,7 +39,30 @@ def args_to_int(func):
     return wrapper
 
 
-"""
-TODO
-- Декоратор, куширующий результат выполнения метода у екземпляра класса
-"""
+class cached_property(object):
+    """
+    Декоратор property класса, кеширующий результат
+    его выполнения
+
+    class SomeClass:
+       @cached_property
+       def some_prop(self):
+           print('cached')
+           return 42
+
+    >>> t = SomeClass()
+    >>> t.some_prop
+    cached
+    42
+    >>> t.some_prop
+    42
+    """
+    def __init__(self, method):
+        self._method = method
+
+    def __get__(self, instance, owner):
+        if instance is None:
+            return self
+        value = self._method(instance)
+        setattr(instance, self._method.__name__, value)
+        return value

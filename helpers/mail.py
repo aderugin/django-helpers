@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
+# TODO: заменить на get_user_model
 from django.contrib.auth.models import User
 from django.conf import settings
 
@@ -21,7 +22,8 @@ def send_mail_notification(action, subject, context, admin=True, recipient=None,
         recipient = [recipient]
     if admin:
         recipient = User.objects.filter(
-            is_superuser=True).values_list('email', flat=True)
+            is_superuser=True
+        ).values_list('email', flat=True)
 
     template_name = 'mail/%s/%s.%s' % (
         'admin' if admin else 'user',
