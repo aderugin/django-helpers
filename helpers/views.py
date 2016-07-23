@@ -128,8 +128,8 @@ class AjaxFormViewMixin(object):
                 'error_keys': list(form.errors.keys())
             }
             if form.is_valid():
-                context['success'] = True
                 self.form_valid(form)
+                context['success'] = True
             return JsonResponse(context)
         return HttpResponseBadRequest()
 
@@ -138,7 +138,7 @@ class AjaxFormViewMixin(object):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context[self.context_form_name] = self.form()
+        context[self.context_form_name] = self.form
         return context
 
 
