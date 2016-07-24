@@ -46,3 +46,11 @@ def wrap_1000(value, tag='span'):
         }
     else:
         return value
+
+
+@register.filter
+def get_querylist(querydict, key):
+    """
+    Работает с объектом QueryDict, выполняет метод getlist
+    """
+    return querydict.getlist(key)

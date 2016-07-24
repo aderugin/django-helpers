@@ -121,7 +121,7 @@ class AjaxFormViewMixin(object):
 
     def post(self, request, *args, **kwargs):
         if request.is_ajax():
-            form = self.form(request.POST)
+            form = self.get_form(request.POST)
             context = {
                 'success': False,
                 'success_url': self.get_success_url(),
@@ -138,8 +138,11 @@ class AjaxFormViewMixin(object):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context[self.context_form_name] = self.form()
+        context[self.context_form_name] = self.get_form()
         return context
+
+    def get_form(self, *args, **kwargs):
+        return self.form(*args, **kwargs)
 
 
 # TODO: Обобщить хлебные крошки
