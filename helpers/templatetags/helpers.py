@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import template
-from .tools import int_convertible, plural_number as _plural_number
+from helpers.utils import int_convertible, plural_number as _plural_number
 
 register = template.Library()
 
