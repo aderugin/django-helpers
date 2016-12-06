@@ -101,7 +101,7 @@ class AjaxObjectListMixin(object):
         return context
 
     def get(self, request, *args, **kwargs):
-        if request.is_ajax() and 'ajax_page':
+        if request.is_ajax() and 'ajax_page' in request.GET:
             return JsonResponse(self.get_ajax_object_list_context_data())
         return super().get(request, *args, **kwargs)
 

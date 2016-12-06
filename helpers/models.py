@@ -50,12 +50,19 @@ class ActivatableMixin(models.Model):
             self.save()
 
 
+class SortableQuerySet(models.QuerySet):
+    def order_by_sort(self):
+        return self.order_by('sort')
+
+
 class SortableMixin(models.Model):
     """
     Добавляет сортировку
     """
     sort = models.PositiveSmallIntegerField(verbose_name='Сортировка', default=500,
                                             help_text='Чем меньше - тем выше', db_index=True)
+
+    objects = SortableQuerySet.as_manager()
 
     class Meta:
         ordering = ['sort']
