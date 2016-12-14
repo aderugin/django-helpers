@@ -4,7 +4,6 @@ from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 from django.contrib.auth import authenticate
 from django.core.paginator import Paginator, EmptyPage
 from django.template.loader import render_to_string
-from django.template import RequestContext
 
 
 class OrderedObjectListMixin(object):
@@ -89,14 +88,14 @@ class AjaxObjectListMixin(object):
             'object_list': render_to_string(
                 self.object_list_template_name,
                 {context_object_name: object_list},
-                context_instance=RequestContext(self.request)
+                request=self.request
             )
         }
         if self.paginator_template_name:
             context['paginator'] = render_to_string(
                 self.paginator_template_name,
                 {'paginator': paginator, 'page_obj': object_list},
-                context_instance=RequestContext(self.request)
+                request=self.request
             )
         return context
 
