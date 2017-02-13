@@ -54,3 +54,15 @@ def get_querylist(querydict, key):
     Работает с объектом QueryDict, выполняет метод getlist
     """
     return querydict.getlist(key)
+
+
+@register.filter
+def get_item(dict_, key):
+    """
+    Значение словаря по ключу
+    """
+    try:
+        return dict_[key]
+    except KeyError:
+        pass
+    return None
